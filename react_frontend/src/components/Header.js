@@ -6,10 +6,9 @@ import { motion } from "framer-motion";
 // PUBLIC_INTERFACE
 /**
  * SketchQuest Header
- * - The 'SketchQuest' text and main mascot/logo are completely static (no animation classes or animated components).
- * - Animal mascots/icons around the text float gently using framer-motion for a playful, dynamic effect.
- * - No animation/class is ever applied to text/logo or central mascot/lizard.
- * - CSS selector specificity and utility class hygiene are enforced for animation scoping.
+ * - The 'SketchQuest' text and main mascot/logo are completely static (no animation classes or animated components, no animation CSS, and no animated inline style on text or its parents).
+ * - Only animal mascots/icons (not logo or text) float gently using framer-motion for a playful, dynamic effect.
+ * - CSS selectors and animation logic are tightly scoped/isolated to avoid accidental leaking.
  */
 export default function Header() {
   const { pathname } = useLocation();
@@ -22,52 +21,35 @@ export default function Header() {
     { emoji: "🐱", label: "Cat" },
   ];
 
-  // Framer Motion floating animation variants for each mascot (with different keyframes for organic movement)
+  // Framer Motion floating animation variants for each mascot
   const floatVariants = [
     {
       animate: {
         y: [0, -15, 0, 8, 0],
-        transition: {
-          duration: 2.8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        },
+        transition: { duration: 2.8, repeat: Infinity, ease: "easeInOut" },
       },
     },
     {
       animate: {
         y: [0, 12, 0, -14, 0],
-        transition: {
-          duration: 3.2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        },
+        transition: { duration: 3.2, repeat: Infinity, ease: "easeInOut" },
       },
     },
     {
       animate: {
         y: [0, 10, -7, 0, 8, 0],
-        transition: {
-          duration: 2.7,
-          repeat: Infinity,
-          ease: "easeInOut",
-        },
+        transition: { duration: 2.7, repeat: Infinity, ease: "easeInOut" },
       },
     },
     {
       animate: {
         y: [0, -8, 6, 0, -10, 0],
-        transition: {
-          duration: 3.0,
-          repeat: Infinity,
-          ease: "easeInOut",
-        },
+        transition: { duration: 3.0, repeat: Infinity, ease: "easeInOut" },
       },
     },
   ];
 
-  // All animation and motion-related logic is fully isolated to mascots ONLY.
-
+  // Only mascot icons are motion-wrapped. Absolutely NO motion, animation, or animation-related class on or above the SketchQuest text or its direct container.
   return (
     <header
       className="flex flex-col sm:flex-row items-center justify-between w-full px-4 sm:px-8 py-4 drop-shadow-md rounded-b-2xl z-20"
@@ -76,6 +58,7 @@ export default function Header() {
         minHeight: 74,
         borderBottom: "2.7px solid var(--border-color)",
       }}
+      // absolutely no animation/transition prop
     >
       <div className="flex flex-col items-center sm:flex-row sm:gap-8 gap-2 w-full sm:w-auto">
         {/* Brand & logo block */}
@@ -129,6 +112,7 @@ export default function Header() {
 
             {/* --- STATIC: SketchQuest logo/title & mascot --- */}
             <div
+              // Absolutely NO classes which could have animation, and only static visual styles
               style={{
                 fontFamily: "'Bungee', cursive",
                 color: "#4E73DF",
@@ -137,8 +121,9 @@ export default function Header() {
                 filter: "drop-shadow(0px 3px 10px #c3dafb88)",
                 display: "flex",
                 alignItems: "center",
-                zIndex: 10
-                // All animation/transition properties removed
+                zIndex: 10,
+                // No animation/transition
+                // No className to avoid accidental inheritance
               }}
               data-testid="header-title"
               id="sketchquest-title-container"
@@ -149,8 +134,8 @@ export default function Header() {
                 style={{
                   fontSize: 28,
                   marginRight: 4,
-                  verticalAlign: "middle"
-                  // No animation, transition, or filter styles
+                  verticalAlign: "middle",
+                  // No animation, transition, or filter styles or className
                 }}
               >
                 🎨
@@ -161,7 +146,7 @@ export default function Header() {
                 style={{
                   userSelect: "none",
                   marginRight: 6,
-                  // Remove ALL animation, transition, and filter styles to guarantee static visual.
+                  // Remove ALL animation, transition, filter, className styles
                 }}
               >
                 SketchQuest
@@ -175,8 +160,8 @@ export default function Header() {
                   height: 38,
                   display: "inline-block",
                   verticalAlign: "middle",
-                  lineHeight: 1
-                  // No animation, filter, or transition styles
+                  lineHeight: 1,
+                  // No animation, filter, or transition styles or className additions
                 }}
                 aria-label="lizard mascot"
               >
