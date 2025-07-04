@@ -174,9 +174,8 @@ export default function Header() {
                 filter: "drop-shadow(0px 3px 10px #c3dafb88)",
                 display: "flex",
                 alignItems: "center",
-                zIndex: 10,
-                animation: "none",
-                transition: "none"
+                zIndex: 10
+                // Removed animation and transition properties to ensure no accidental inheritance
               }}
               data-testid="header-title"
               id="sketchquest-title-container"
@@ -187,10 +186,8 @@ export default function Header() {
                 style={{
                   fontSize: 28,
                   marginRight: 4,
-                  verticalAlign: "middle",
-                  animation: "none",
-                  transition: "none",
-                  filter: "none"
+                  verticalAlign: "middle"
+                  // Removed animation, transition, filter
                 }}
               >
                 🎨
@@ -198,13 +195,11 @@ export default function Header() {
               {/* NO animation class or style on the text */}
               <span
                 id="sketchquest-title-text"
-                className="" // do not add any class that might animate!
+                // No className, no animation, no wavy, no transition, no filter
                 style={{
                   userSelect: "none",
-                  marginRight: 6,
-                  animation: "none",
-                  transition: "none",
-                  filter: "none"
+                  marginRight: 6
+                  // Removed animation, transition, filter
                 }}
               >
                 SketchQuest
@@ -218,17 +213,15 @@ export default function Header() {
                   height: 38,
                   display: "inline-block",
                   verticalAlign: "middle",
-                  lineHeight: 1,
-                  animation: "none",
-                  filter: "none",
-                  transition: "none"
+                  lineHeight: 1
+                  // Removed animation, filter, transition
                 }}
                 aria-label="lizard mascot"
               >
                 <span
                   role="img"
                   aria-label="lizard mascot"
-                  style={{ fontSize: 27, animation: "none", filter: "none", transition: "none" }}
+                  style={{ fontSize: 27 }}
                 >🦎</span>
               </span>
             </div>
