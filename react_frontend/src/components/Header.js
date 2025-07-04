@@ -137,8 +137,8 @@ export default function Header() {
                 filter: "drop-shadow(0px 3px 10px #c3dafb88)",
                 display: "flex",
                 alignItems: "center",
-                zIndex: 10,
-                // No animation/transition properties
+                zIndex: 10
+                // All animation/transition properties removed
               }}
               data-testid="header-title"
               id="sketchquest-title-container"
@@ -149,19 +149,18 @@ export default function Header() {
                 style={{
                   fontSize: 28,
                   marginRight: 4,
-                  verticalAlign: "middle",
-                  // No animation, transition, filter
+                  verticalAlign: "middle"
+                  // No animation, transition, or filter styles
                 }}
               >
                 🎨
               </span>
-              {/* --- NO animation, className, or transition on the text --- */}
+              {/* Absolutely NO animation, className, or side effect on the text */}
               <span
                 id="sketchquest-title-text"
                 style={{
                   userSelect: "none",
                   marginRight: 6,
-                  // No animation, className, transition, or filter
                   animation: "none",
                   transition: "none",
                   filter: "none"
@@ -179,7 +178,7 @@ export default function Header() {
                   display: "inline-block",
                   verticalAlign: "middle",
                   lineHeight: 1
-                  // No animation, filter, transition
+                  // No animation, filter, or transition styles
                 }}
                 aria-label="lizard mascot"
               >
