@@ -4,10 +4,11 @@ body {
   font-family: "Quicksand", "Open Sans", "Inter", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #fcf8ee;
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1, h2, h3, .font-bungee {
+  font-family: "Bungee", "Fredoka", "Nunito", Arial, cursive, sans-serif;
+  letter-spacing: 0.02em;
 }

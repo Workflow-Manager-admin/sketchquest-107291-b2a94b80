@@ -1,13 +1,25 @@
 /* CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  /* SketchQuest Brand Colors (light) */
+  --primary: #4F8EFF;
+  --secondary: #e8e8e8;
+  --accent: #151414;
+  --kavia-orange: #E87A41;
+  --sketch-yellow: #ffe385;
+  --bg-primary: #fcf8ee;
+  --bg-secondary: #fff;
+  --draw-bg: #fcfaf6;
+  --text-primary: #222;
+  --text-secondary: #4F8EFF;
+  --border-color: #e8e8e8;
+  --card-shadow: 0 2px 12px 0 rgba(77,116,255,0.10);
+  --button-bg: #4F8EFF;
+  --button-hover: #E87A41;
+  --button-text: #fff;
+  --input-bg: #f5f8fe;
+  --input-border: #c4dcff;
+  --error: #ff5d5f;
+  --success: #14d69d;
 }
 
 [data-theme="dark"] {
