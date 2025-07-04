@@ -138,6 +138,8 @@ export default function Header() {
                 display: "flex",
                 alignItems: "center",
                 zIndex: 10,
+                // Explicitly remove any motion/framer/animation class, style
+                animation: "none"
               }}
               data-testid="header-title"
             >
@@ -148,13 +150,24 @@ export default function Header() {
                   fontSize: 28,
                   marginRight: 4,
                   verticalAlign: "middle",
+                  animation: "none" // Never animate emoji
                 }}
               >
                 🎨
               </span>{" "}
-              {/* NO animation/class on text */}
-              <span style={{ userSelect: "none", marginRight: 6 }}>SketchQuest</span>
-              {/* Central mascot (static, NOT floating) */}
+              {/* NO animation/class on text, NO 'wavy', 'motion-pop', 'anim-float-header', etc. */}
+              <span
+                style={{
+                  userSelect: "none",
+                  marginRight: 6,
+                  animation: "none",        // Statics only
+                  transition: "none",
+                  filter: "none"
+                }}
+              >
+                SketchQuest
+              </span>
+              {/* Central mascot (static, NOT floating/NOT animated) */}
               <span
                 className="mascot-logo shadow-sm"
                 style={{
@@ -164,11 +177,17 @@ export default function Header() {
                   display: "inline-block",
                   verticalAlign: "middle",
                   lineHeight: 1,
-                  animation: "none", // enforce override
+                  animation: "none", // enforce override (static)
+                  filter: "none",
+                  transition: "none"
                 }}
                 aria-label="lizard mascot"
               >
-                <span role="img" aria-label="lizard mascot" style={{ fontSize: 27 }}>🦎</span>
+                <span
+                  role="img"
+                  aria-label="lizard mascot"
+                  style={{ fontSize: 27, animation: "none", filter: "none", transition: "none" }}
+                >🦎</span>
               </span>
             </div>
             {/* Bottom mascots (animated) */}
