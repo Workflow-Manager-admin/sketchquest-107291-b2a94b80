@@ -111,9 +111,10 @@ export default function Header() {
             </div>
 
             {/* --- STATIC: SketchQuest logo/title & mascot --- */}
+            {/* Brand: SketchQuest logo - static! */}
             <div
-              // Absolutely NO animation/transition classes or styles allowed on or above brand text.
-              // Remove any unnecessary CSS that could inherit animation or transitions.
+              // This container and all children are FULLY STATIC: No animation, transition, "motion-", "wavy", or related classes/styles!
+              // Only CSS left here pertains to font, color, and layout.
               style={{
                 fontFamily: "'Bungee', cursive",
                 color: "#4E73DF",
@@ -123,9 +124,8 @@ export default function Header() {
                 display: "flex",
                 alignItems: "center",
                 zIndex: 10,
-                background: "none",
-                transition: "none",
-                animation: "none",
+                background: "none"
+                // Absolutely NO transition or animation properties.
               }}
               data-testid="header-title"
               id="sketchquest-title-container"
@@ -138,29 +138,25 @@ export default function Header() {
                   marginRight: 4,
                   verticalAlign: "middle",
                   background: "none",
-                  animation: "none",
-                  filter: "none",
-                  transition: "none",
-                  color: "inherit",
+                  color: "inherit"
                 }}
               >
                 🎨
               </span>
-              {/* Absolutely NO animation, className, or side effect on the text */}
+              {/* Absolutely NO animation, NO wavy, NO motion, NO transition, NO special styling on the text */}
               <span
                 id="sketchquest-title-text"
                 style={{
                   userSelect: "none",
                   marginRight: 6,
                   background: "none",
-                  animation: "none",
-                  filter: "none",
-                  transition: "none",
                   color: "inherit",
                   fontWeight: 600,
                   fontFamily: "'Bungee', cursive",
                   letterSpacing: "1.1px"
+                  // No animation/filter/transition
                 }}
+                // Static brand logo text: no animated CSS class at all!
               >
                 SketchQuest
               </span>
