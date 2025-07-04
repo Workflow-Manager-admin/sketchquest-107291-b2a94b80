@@ -47,7 +47,7 @@ export default function DrawingPage() {
     }
   }, [docId, mode]);
 
-  // Drawing Canvas Timer for new drawings
+    // Drawing Canvas Timer for new drawings, animates color based on timer
   useEffect(() => {
     if (mode === "draw" && chosenPrompt && timer > 0 && canvasReady) {
       const ivl = setInterval(() => setTimer((t) => t > 0 ? t - 1 : 0), 1000);
@@ -202,9 +202,23 @@ export default function DrawingPage() {
           <>
             <div className="font-bold font-bungee text-indigo-700 text-xl mb-2">{`Prompt: ${chosenPrompt}`}</div>
             <div className="font-mono flex items-center text-lg gap-2">
-              <Timer size={19} style={{marginRight:3}} />
+              <Timer size={19} style={{ marginRight: 3 }} />
               Timer:
-              <span className={timer < 10 ? "text-red-500 font-bold animate-pulse" : "text-green-700 font-bold"}>
+              <span
+                className={
+                  "digital-timer font-extrabold px-2 rounded-md drop-shadow-lg" +
+                  (timer < 7
+                    ? " bg-red-100 text-red-600 animate-pulse"
+                    : timer < 16
+                      ? " bg-[var(--sketch-yellow)] text-[var(--brand-purple)] animate-pulse-slow"
+                      : " bg-green-100 text-green-700")
+                }
+                style={{
+                  fontFamily: "Fredoka, Bungee, Nunito, monospace",
+                  fontSize: "1.35em",
+                  transition: "background 0.25s, color 0.22s"
+                }}
+              >
                 {timer}s
               </span>
             </div>
