@@ -161,9 +161,7 @@ export default function Header() {
                 style={{
                   userSelect: "none",
                   marginRight: 6,
-                  animation: "none",
-                  transition: "none",
-                  filter: "none"
+                  // Remove ALL animation, transition, and filter styles to guarantee static visual.
                 }}
               >
                 SketchQuest
