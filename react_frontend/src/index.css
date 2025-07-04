@@ -1,14 +1,209 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka:wght@600&family=Nunito:wght@700&family=Inter:wght@400;600&family=Quicksand:wght@400;700&family=Open+Sans&family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka:wght@600&family=Nunito:wght@700&family=Inter:wght@400;600&family=Quicksand:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
+
 body {
   margin: 0;
+  min-height: 100vh;
   font-family: "Quicksand", "Open Sans", "Inter", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--bg-primary);
+  background: var(--bg-gradient);
   color: var(--text-primary);
+  transition: background 0.5s, color 0.2s;
+  animation: playful-bg 16s ease-in-out infinite alternate;
+  overflow-x: hidden;
 }
 
+@keyframes playful-bg {
+  0% { background-position: left top;}
+  100% { background-position: right bottom;}
+}
+
+/* Container tweaks for center layouts */
+.auth-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+/* Heading Styles */
 h1, h2, h3, .font-bungee {
   font-family: "Bungee", "Fredoka", "Nunito", Arial, cursive, sans-serif;
   letter-spacing: 0.02em;
+  text-shadow: 0 3px 18px #e9edff85;
+}
+
+h1 {
+  font-size: 2.8rem;
+  line-height: 1.1;
+  margin: 0.4em 0 0.25em 0;
+  color: var(--text-playful);
+}
+h2, .font-bungee {
+  font-size: 2rem;
+  color: var(--text-secondary);
+}
+
+h3 {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+p, .font-sans-body {
+  font-family: "Quicksand", "Open Sans", "Inter", Arial, sans-serif;
+  font-size: 1.02rem;
+  color: var(--text-primary);
+  margin: 0.8em 0;
+}
+
+.font-playful {
+  font-family: "Bungee", "Fredoka", cursive;
+  color: var(--brand-purple);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+/* Card utility for dash and leaderboard */
+.sketch-card {
+  border-radius: var(--radius-lg);
+  background: var(--card-gradient);
+  box-shadow: var(--card-shadow);
+  padding: 2rem 1.6rem 1.7rem 1.6rem;
+  transition: box-shadow var(--transition-main), transform 0.29s cubic-bezier(.67,1.7,.46,.9);
+  will-change: transform, box-shadow;
+}
+
+/* Floating Action Button */
+.fab {
+  position: fixed;
+  bottom: 38px;
+  right: 28px;
+  z-index: 40;
+  border-radius: 100%;
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, var(--brand-purple), var(--primary), var(--kavia-orange));
+  color: #fff;
+  padding: 0.53em 0.63em;
+  box-shadow: 0 3px 22px 0 #6366f199, 0 2px 8px #4e73df30;
+  border: none;
+  transition: transform 0.22s, box-shadow 0.55s cubic-bezier(.39,2.25,.36,.87);
+}
+.fab:hover {
+  transform: scale(1.08) rotate(-12deg);
+  box-shadow: 0 6px 32px #fbbf2469, 0 3px 20px #4e73df50;
+  cursor: pointer;
+}
+
+/* Playful button styles */
+.btn, .btn-primary, .btn-animated {
+  display: inline-block;
+  appearance: none;
+  border: none;
+  outline: none;
+  border-radius: var(--radius-md);
+  background: var(--button-bg);
+  color: var(--button-text);
+  font-family: "Fredoka", "Nunito", "Bungee", Arial, cursive;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.8em 1.65em;
+  box-shadow: var(--button-shadow);
+  transition: background var(--transition-main), transform 0.16s, box-shadow var(--transition-main);
+  position: relative;
+  cursor: pointer;
+}
+
+.btn:hover, .btn-primary:hover, .btn-animated:hover {
+  background: var(--button-hover);
+  color: #272b21;
+  box-shadow: 0 6px 32px #fbbf2469, 0 3px 20px #6366f177;
+  transform: translateY(-3px) scale(1.05) rotate(-1.5deg);
+}
+
+.btn:active, .btn-primary:active, .btn-animated:active {
+  background: var(--button-active);
+  color: #fff;
+  transform: scale(0.98);
+}
+
+/* Animated bouncy highlight for card entrance */
+@keyframes pop-in-card {
+  0% { transform: scale(0.85) translateY(40px); opacity: 0; box-shadow: none;}
+  70% { transform: scale(1.05) translateY(-5px); opacity: 1;}
+  100% { transform: scale(1) translateY(0); opacity: 1;}
+}
+
+/* Playful grid/paper background for canvas area */
+.canvas-bg {
+  background: repeating-linear-gradient(0deg, #e0f4ff 0px, #e0f4ff 2px, transparent 2px, transparent 32px),
+              repeating-linear-gradient(90deg, #e0f4ff 0px, #e0f4ff 2px, transparent 2px, transparent 32px),
+              var(--canvas-gradient);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 3px 20px #e4f0ff40;
+}
+
+input, textarea, select {
+  border-radius: var(--radius-md);
+  border: 2.5px solid var(--input-border);
+  background: var(--input-bg);
+  outline: none;
+  font-family: "Quicksand", "Inter", Arial, sans-serif;
+  font-size: 1.03em;
+  transition: border 0.27s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--input-focus);
+  background: #fffefc;
+}
+
+::-webkit-input-placeholder { color: #a2aecb; font-family: "Quicksand"; font-size: 0.98em;}
+::-moz-placeholder { color: #a2aecb;}
+:-ms-input-placeholder { color: #a2aecb;}
+::placeholder { color: #a2aecb;}
+
+.sketch-glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(13px) saturate(0.96);
+}
+
+/* Leaderboard sticky */
+.sticky-leaderboard {
+  position: sticky;
+  top: 2.8rem;
+  z-index: 8;
+}
+
+/* Animations for motion items (used by framer-motion for highlights) */
+.motion-pop {
+  animation: pop-in-card 0.6s cubic-bezier(.22,2,.22,.99);
+}
+
+/* Utility classes for text colors */
+.text-brand {
+  color: var(--brand-purple);
+}
+.text-playful {
+  color: var(--text-playful) !important;
+}
+
+/* Round overflow for mascot images etc. */
+.mascot-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: linear-gradient(132deg, #ffe385 40%, #4e73df 90%);
+  border: 3.5px solid #fff;
+  box-shadow: 0 2px 12px #fbbf2430;
+}
+
+.wavy {
+  animation: wavy 2.65s infinite cubic-bezier(.62,2.95,.47,.95) alternate;
+}
+@keyframes wavy {
+  0% { transform: rotate(-9deg) scale(0.97);}
+  33% { transform: rotate(10deg) scale(1.01);}
+  67% { transform: rotate(-8deg) scale(1.03);}
+  100% { transform: rotate(8deg) scale(0.99);}
 }

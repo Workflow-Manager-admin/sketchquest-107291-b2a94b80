@@ -1,25 +1,70 @@
 /* CSS Variables for Theme Management */
 :root {
-  /* SketchQuest Brand Colors (light) */
-  --primary: #4F8EFF;
-  --secondary: #e8e8e8;
-  --accent: #151414;
-  --kavia-orange: #E87A41;
+  /* SketchQuest Playful & Vibrant Theme */
+  /* Soft background gradients */
+  --bg-gradient: linear-gradient(135deg, #f6fff9 0%, #e4f0ff 100%);
+  --header-gradient: linear-gradient(90deg, #f8f8fc 0%, #f6fff9 30%, #e4f0ff 100%);
+  --canvas-gradient: linear-gradient(135deg, #fff 70%, #e4f0ff 100%);
+  --card-gradient: linear-gradient(110deg, #f6f8fe 80%, #f1f4fa 100%);
+
+  /* Core Palette */
+  --primary: #4e73df;      /* blue vibrant */
+  --secondary: #e4f0ff;    /* soft blue background */
+  --accent: #ff6b81;       /* pinky accent */
+  --warning: #fbbf24;      /* yellow */
+  --success: #10b981;      /* green */
+  --brand-purple: #6366f1; /* soft-vibrant purple */
+  --kavia-orange: #ff9843;
   --sketch-yellow: #ffe385;
-  --bg-primary: #fcf8ee;
-  --bg-secondary: #fff;
-  --draw-bg: #fcfaf6;
-  --text-primary: #222;
-  --text-secondary: #4F8EFF;
-  --border-color: #e8e8e8;
-  --card-shadow: 0 2px 12px 0 rgba(77,116,255,0.10);
-  --button-bg: #4F8EFF;
-  --button-hover: #E87A41;
+  --sky-padding: #b2e7ff;
+
+  /* Texts */
+  --text-primary: #232333;
+  --text-secondary: #6366f1;
+  --text-playful: #4e73df;
+  --text-muted: #a2aecb;
+
+  /* Utility background */
+  --bg-primary: #f8f8fc;
+  --bg-secondary: #e4f0ff;
+  --bg-glass: rgba(240,248,255,0.64);
+
+  --draw-bg: #fafdff;
+  --card-shadow: 0 4px 24px 0 rgba(79,142,255,0.13), 0 2px 8px #ecefff;
+
+  --border-color: #dbeafe;
+  --border-color-bold: #4e73df;
+
+  --button-bg: #4e73df;
+  --button-hover: #fbbf24;
+  --button-active: #6366f1;
   --button-text: #fff;
-  --input-bg: #f5f8fe;
-  --input-border: #c4dcff;
-  --error: #ff5d5f;
-  --success: #14d69d;
+  --button-shadow: 0 4px 18px 0 #b3e1fb77;
+  --input-bg: #e9f3fe;
+  --input-border: #b5d8fd;
+  --input-focus: #ff6b81;
+  --error: #ff6b81;
+  --success: #10b981;
+
+  /* Misc */
+  --radius-lg: 2.2rem;
+  --radius-md: 1.3rem;
+  --radius-full: 4.4rem;
+  --transition-main: 0.35s cubic-bezier(.65,1.6,.4,1);
+}
+
+/* Dark theme (alt playful) */
+[data-theme="dark"] {
+  --bg-primary: #111928;
+  --bg-secondary: #232740;
+  --bg-glass: rgba(44,33,66,0.80);
+  --text-primary: #f4f4fe;
+  --text-secondary: #78aaff;
+  --text-muted: #cbbfff;
+  --button-bg: #6366f1;
+  --button-hover: #fbbf24;
+  --button-text: #f7fafc;
+  --card-shadow: 0 4px 24px 0 rgba(79,142,255,0.14);
 }
 
 [data-theme="dark"] {
