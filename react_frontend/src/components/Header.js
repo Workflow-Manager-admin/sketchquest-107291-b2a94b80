@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 // PUBLIC_INTERFACE
 /**
  * SketchQuest Header
- * - The 'SketchQuest' text and mascot/logo are completely static (no animation classes or components, animated styles, or inherited effects).
- * - ONLY animal mascots/icons (NOT logo or "SketchQuest" text) float gently for playful effect.
- * - Tight comments explain and enforce this for maintainability.
+ * - The 'SketchQuest' text and its container are COMPLETELY STATIC: NO animation, motion, animation-related classes, transition styles, or inheritance.
+ * - ONLY animal mascot icons ("owl", "fox", etc, not the lizard in center) are animated/floating via motion.div and anim-float-header class.
+ * - Code comments clarify and enforce this requirement!
  */
 export default function Header() {
   const { pathname } = useLocation();
@@ -21,7 +21,8 @@ export default function Header() {
     { emoji: "🐱", label: "Cat" },
   ];
 
-  // Framer Motion floating animation variants for each mascot
+  // Framer Motion floating animation variants for mascots.
+  // Only animal mascot icons use these; SketchQuest text or parent never uses any motion or animation.
   const floatVariants = [
     {
       animate: {
@@ -49,7 +50,7 @@ export default function Header() {
     },
   ];
 
-  // Only mascot icons are motion-wrapped. NO animation, keyframes, or related classes on or above the SketchQuest text or its container.
+  // All animation, motion.div, motion-pop, .wavy, or transition classes are applied ONLY to mascot icons, never beyond!
   return (
     <header
       className="flex flex-col sm:flex-row items-center justify-between w-full px-4 sm:px-8 py-4 drop-shadow-md rounded-b-2xl z-20"
@@ -58,14 +59,15 @@ export default function Header() {
         minHeight: 74,
         borderBottom: "2.7px solid var(--border-color)",
       }}
-      // absolutely no animation/transition prop
+      // Absolutely NO animation/transition prop (enforced!) on header or its child containers.
     >
       <div className="flex flex-col items-center sm:flex-row sm:gap-8 gap-2 w-full sm:w-auto">
         {/* Brand & logo block */}
         <Link to="/dashboard" style={{ textDecoration: "none" }}>
           <div className="flex flex-col items-center relative select-none">
-            {/* Top mascots (animated) */}
+            {/* TOP mascot row: only icons are animated, never the container */}
             <div className="flex flex-row gap-1 items-end mb-2">
+              {/* Animated animal mascot icon 1 */}
               <motion.div
                 className="mascot-logo anim-float-header"
                 style={{
@@ -87,6 +89,7 @@ export default function Header() {
               >
                 <span style={{ fontSize: 24, userSelect: "none" }}>{animalMascots[0].emoji}</span>
               </motion.div>
+              {/* Animated animal mascot icon 2 */}
               <motion.div
                 className="mascot-logo anim-float-header"
                 style={{
@@ -110,11 +113,12 @@ export default function Header() {
               </motion.div>
             </div>
 
-            {/* --- STATIC: SketchQuest logo/title & mascot --- */}
-            {/* 
-              FULLY STATIC: no classes or motion components that animate,
-              no .wavy or .motion-pop, no transition/animation/filter except drop-shadow.
-              All layout, font, and color are steered purely by static CSS and inline font styles.
+            {/* ---------------- FULLY STATIC BRAND AREA! ----------------- */}
+            {/* NEVER add:
+                - animation, motion.div, motion-pop, .wavy,
+                - animation/transition/filter (except drop-shadow for highlight)
+                - animated keyframes, inheritance, or motion on children!
+              EXCLUSIVELY static styles and markup below:
             */}
             <div
               style={{
@@ -122,7 +126,7 @@ export default function Header() {
                 color: "#4E73DF",
                 fontSize: 29,
                 letterSpacing: "1.1px",
-                filter: "drop-shadow(0px 3px 10px #c3dafb88)", // aesthetic highlight only
+                filter: "drop-shadow(0px 3px 10px #c3dafb88)", // highlight only, not animation
                 display: "flex",
                 alignItems: "center",
                 zIndex: 10,
@@ -131,7 +135,7 @@ export default function Header() {
               }}
               data-testid="header-title"
               id="sketchquest-title-container"
-              // Absolutely no animation/transition properties allowed here or children
+              // NEVER add animation, transition, or motion here or below!
             >
               <span
                 role="img"
@@ -142,13 +146,12 @@ export default function Header() {
                   verticalAlign: "middle",
                   background: "none",
                   color: "inherit"
-                  // NO animation/transition/filter
+                  // 100% static
                 }}
-                // No animation classes
               >
                 🎨
               </span>
-              {/* STATIC brand text: absolutely NO animation, motion, keyframes, or animation classes. */}
+              {/* --- STATIC brand text, never animated! --- */}
               <span
                 id="sketchquest-title-text"
                 style={{
@@ -159,13 +162,12 @@ export default function Header() {
                   fontWeight: 600,
                   fontFamily: "'Bungee', cursive",
                   letterSpacing: "1.1px"
-                  // NO animation/filter/transition
+                  // Must stay static!
                 }}
-                // No animation or filter or className here
               >
                 SketchQuest
               </span>
-              {/* Central mascot (static, not animated, no animation/transition/filter) */}
+              {/* Central mascot (static lizard - should not bounce, float, or animate) */}
               <span
                 className="mascot-logo shadow-sm"
                 style={{
@@ -181,7 +183,7 @@ export default function Header() {
                   border: "3.5px solid #fff"
                 }}
                 aria-label="lizard mascot"
-                // No animation class, static only
+                // Absolutely NO animation, keyframes, or wiggle!
               >
                 <span
                   role="img"
@@ -189,13 +191,16 @@ export default function Header() {
                   style={{
                     fontSize: 27,
                     background: "none"
-                    // No animation or motion or keyframes
+                    // 100% static
                   }}
                 >🦎</span>
               </span>
             </div>
-            {/* Bottom mascots (animated) */}
+            {/* ---------------------------------------------------------- */}
+
+            {/* BOTTOM mascot row: only icons are animated, not container */}
             <div className="flex flex-row gap-1 items-start mt-2">
+              {/* Animated animal mascot icon 3 */}
               <motion.div
                 className="mascot-logo anim-float-header"
                 style={{
@@ -217,6 +222,7 @@ export default function Header() {
               >
                 <span style={{ fontSize: 24, userSelect: "none" }}>{animalMascots[2].emoji}</span>
               </motion.div>
+              {/* Animated animal mascot icon 4 */}
               <motion.div
                 className="mascot-logo anim-float-header"
                 style={{
