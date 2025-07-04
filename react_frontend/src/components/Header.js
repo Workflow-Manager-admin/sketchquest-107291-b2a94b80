@@ -4,17 +4,75 @@ import { Crown } from "lucide-react";
 import { motion } from "framer-motion";
 
 // PUBLIC_INTERFACE
+/**
+ * SketchQuest Header
+ * - The 'SketchQuest' text (and central mascot) remains completely static (no animation or effect).
+ * - The animal mascot icons/emoji (except the central lizard) gently float/bob using framer-motion for a playful effect.
+ * - Layout remains playful and balanced.
+ */
 export default function Header() {
   const { pathname } = useLocation();
 
-  // Array of animal mascots (emoji for playful effect)
+  // Mascot emojis (except .[0]=center lizard)
   const animalMascots = [
-    { emoji: "🦎", label: "Lizard" }, // central mascot (main brand)
+    { emoji: "🦎", label: "Lizard" }, // central (brand)
     { emoji: "🐱", label: "Cat" },
     { emoji: "🦉", label: "Owl" },
     { emoji: "🐰", label: "Rabbit" },
     { emoji: "🦊", label: "Fox" },
-    // Could expand with SVGs instead, but emoji look universally playful and stay on-brand.
+  ];
+
+  // Floating/bobbing animation for mascots (framer-motion variants)
+  // Each animal gets an offset phase for a more organic cluster movement.
+  const floatVariants = [
+    { // Cat
+      animate: {
+        y: [0, -14, 0, 8, 0],
+        x: [0, 3, 5, 2, 0],
+        rotate: [0, 4, -4, 3, 0],
+        transition: {
+          duration: 3.0,
+          repeat: Infinity,
+          ease: "easeInOut",
+        },
+      },
+    },
+    { // Owl
+      animate: {
+        y: [0, 12, 6, 0, -8, 0],
+        x: [0, -3, 2, 7, 0, -4, 0],
+        rotate: [0, -5, 6, -2, 0],
+        transition: {
+          duration: 3.4,
+          repeat: Infinity,
+          ease: "easeInOut",
+        },
+      },
+    },
+    { // Rabbit
+      animate: {
+        y: [0, -10, 2, 14, 0],
+        x: [0, 1, 5, -3, 0],
+        rotate: [0, 7, -3, 0],
+        transition: {
+          duration: 2.7,
+          repeat: Infinity,
+          ease: "easeInOut",
+        },
+      },
+    },
+    { // Fox
+      animate: {
+        y: [0, 10, -7, 0, 4, 0],
+        x: [0, -3, 0, 3, 0],
+        rotate: [0, -2, 7, 0, -3],
+        transition: {
+          duration: 3.3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        },
+      },
+    },
   ];
 
   return (
@@ -28,15 +86,53 @@ export default function Header() {
     >
       <div className="flex flex-col items-center sm:flex-row sm:gap-8 gap-2 w-full sm:w-auto">
         <Link to="/dashboard" style={{ textDecoration: "none" }}>
-          {/* Stable: no wavy, no motion special effect */}
-          <div className="flex items-center gap-3 cursor-pointer select-none">
+          {/* -- LOGO CLUSTER -- */}
+          <div className="flex items-center gap-2 sm:gap-3 cursor-pointer select-none relative">
+            {/* Playful floating emojis (beside/above/below) */}
+            {/* Above/left mascots cluster */}
+            <div className="flex flex-row gap-0.5 items-end h-full mr-2 sm:mr-0 mt-[1px]">
+              {[0, 1].map(i =>
+                i === 0 ? null : (
+                  // animalMascots[1] = Cat, etc
+                  <motion.span
+                    key={animalMascots[i].label}
+                    className="mascot-logo"
+                    style={{
+                      width: 35,
+                      height: 35,
+                      marginLeft: i > 1 ? "-0.55em" : "0",
+                      marginRight: "0.04em",
+                      border: "3px solid #fff",
+                      background:
+                        "linear-gradient(136deg,#ffe385 50%,#e4f0ff 95%)",
+                      boxShadow: "0 1.5px 7px #b3e1fb22",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    aria-label={animalMascots[i].label}
+                    title={animalMascots[i].label}
+                    initial={false}
+                    animate={floatVariants[i - 1].animate}
+                  >
+                    <span style={{ fontSize: 25, userSelect: "none" }}>
+                      {animalMascots[i].emoji}
+                    </span>
+                  </motion.span>
+                )
+              )}
+            </div>
+            {/* -- Static Main Logo Text + Center mascot -- */}
             <span
               style={{
                 fontFamily: "'Bungee', cursive",
                 color: "#4E73DF",
                 fontSize: 29,
                 letterSpacing: "1.1px",
-                filter: "drop-shadow(0px 3px 10px #c3dafb88)"
+                filter: "drop-shadow(0px 3px 10px #c3dafb88)",
+                display: "flex",
+                alignItems: "center",
+                zIndex: 10,
               }}
             >
               <span
@@ -49,48 +145,54 @@ export default function Header() {
                 }}
               >🎨</span>{" "}
               SketchQuest
+              {/* Central mascot (static) */}
+              <span
+                className="mascot-logo shadow-sm"
+                style={{
+                  marginLeft: "12px",
+                  width: 38, height: 38,
+                  display: "inline-block",
+                  verticalAlign: "middle",
+                  lineHeight: 1
+                }}
+              >
+                <span role="img" aria-label="lizard mascot" style={{ fontSize: 27 }}>🦎</span>
+              </span>
             </span>
-            {/* Center mascot, stable, no animation */}
-            <span
-              className="mascot-logo shadow-sm"
-              style={{
-                marginLeft: "12px",
-                width: 38, height: 38,
-                display: "inline-block", verticalAlign: "middle", lineHeight: 1
-              }}
-            >
-              <span role="img" aria-label="lizard mascot" style={{ fontSize: 27 }}>🦎</span>
-            </span>
+            {/* Below/right mascots cluster */}
+            <div className="flex flex-row gap-0.5 items-start h-full ml-2 sm:ml-0">
+              {[2, 3, 4].map((i, idx) => (
+                <motion.span
+                  key={animalMascots[i].label}
+                  className="mascot-logo"
+                  style={{
+                    width: 34,
+                    height: 34,
+                    marginLeft: idx !== 0 ? "-0.63em" : "0.09em",
+                    marginRight: "0.06em",
+                    border: "3px solid #fff",
+                    background:
+                      "linear-gradient(135deg, #ffe385 54%, #e4f0ff 89%)",
+                    boxShadow: "0 2px 8px #b3e1fb22",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  aria-label={animalMascots[i].label}
+                  title={animalMascots[i].label}
+                  initial={false}
+                  animate={floatVariants[i - 1].animate}
+                >
+                  <span style={{ fontSize: 24, userSelect: "none" }}>
+                    {animalMascots[i].emoji}
+                  </span>
+                </motion.span>
+              ))}
+            </div>
           </div>
         </Link>
-        {/* Animal mascot cluster, visually under the logo (or beside for desktop) */}
-        <div
-          className="flex flex-row gap-0.5 mt-0.5 sm:mt-0 sm:ml-4"
-          style={{
-            // tightly pack, relative placement grouped to logo
-          }}
-        >
-          {animalMascots.slice(1).map((animal, i) => (
-            <span
-              key={animal.label}
-              className="mascot-logo"
-              style={{
-                width: 36,
-                height: 36,
-                marginLeft: i > 0 ?  "-0.6em" : "0", // overlap a bit for playful cluster
-                marginRight: "0.05em",
-                border: "3.2px solid #fff",
-                background: "linear-gradient(136deg,#ffe385 55%,#e4f0ff 90%)",
-                boxShadow: "0 1.5px 8px #b3e1fb22"
-              }}
-              aria-label={animal.label}
-              title={animal.label}
-            >
-              <span style={{ fontSize: 25, userSelect: "none" }}>{animal.emoji}</span>
-            </span>
-          ))}
-        </div>
       </div>
+      {/* NAV LINKS */}
       <div className="flex items-center gap-4 mt-3 sm:mt-0">
         <Link
           to="/dashboard"
