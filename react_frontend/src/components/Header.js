@@ -6,54 +6,46 @@ import { motion } from "framer-motion";
 // PUBLIC_INTERFACE
 /**
  * SketchQuest Header
- * - The 'SketchQuest' text (and central mascot) remains completely static (no animation or effect).
- * - The animal mascot icons/emoji (except the central lizard) gently float/bob using framer-motion for a playful effect.
- * - Layout remains playful and balanced.
+ * - The 'SketchQuest' text and main mascot/logo are completely static (no animation).
+ * - Animal mascots/icons around the text float gently using framer-motion for a playful, dynamic effect.
+ * - No animation is ever applied to the SketchQuest text or the central mascot/logo.
  */
 export default function Header() {
   const { pathname } = useLocation();
 
-  // Mascot emojis (except .[0]=center lizard)
+  // Define animal mascots (excluding the central mascot/lizard)
   const animalMascots = [
-    { emoji: "🦎", label: "Lizard" }, // central (brand)
-    { emoji: "🐱", label: "Cat" },
     { emoji: "🦉", label: "Owl" },
-    { emoji: "🐰", label: "Rabbit" },
     { emoji: "🦊", label: "Fox" },
+    { emoji: "🐰", label: "Rabbit" },
+    { emoji: "🐱", label: "Cat" },
   ];
 
-  // Floating/bobbing animation for mascots (framer-motion variants)
-  // Each animal gets an offset phase for a more organic cluster movement.
+  // Framer Motion floating animation variants for each mascot (with offset for organic movement)
   const floatVariants = [
-    { // Cat
+    {
       animate: {
-        y: [0, -14, 0, 8, 0],
-        x: [0, 3, 5, 2, 0],
-        rotate: [0, 4, -4, 3, 0],
+        y: [0, -15, 0, 8, 0],
         transition: {
-          duration: 3.0,
+          duration: 2.8,
           repeat: Infinity,
           ease: "easeInOut",
         },
       },
     },
-    { // Owl
+    {
       animate: {
-        y: [0, 12, 6, 0, -8, 0],
-        x: [0, -3, 2, 7, 0, -4, 0],
-        rotate: [0, -5, 6, -2, 0],
+        y: [0, 12, 0, -14, 0],
         transition: {
-          duration: 3.4,
+          duration: 3.2,
           repeat: Infinity,
           ease: "easeInOut",
         },
       },
     },
-    { // Rabbit
+    {
       animate: {
-        y: [0, -10, 2, 14, 0],
-        x: [0, 1, 5, -3, 0],
-        rotate: [0, 7, -3, 0],
+        y: [0, 10, -7, 0, 8, 0],
         transition: {
           duration: 2.7,
           repeat: Infinity,
@@ -61,13 +53,11 @@ export default function Header() {
         },
       },
     },
-    { // Fox
+    {
       animate: {
-        y: [0, 10, -7, 0, 4, 0],
-        x: [0, -3, 0, 3, 0],
-        rotate: [0, -2, 7, 0, -3],
+        y: [0, -8, 6, 0, -10, 0],
         transition: {
-          duration: 3.3,
+          duration: 3.0,
           repeat: Infinity,
           ease: "easeInOut",
         },
@@ -81,49 +71,58 @@ export default function Header() {
       style={{
         background: "var(--header-gradient)",
         minHeight: 74,
-        borderBottom: "2.7px solid var(--border-color)"
+        borderBottom: "2.7px solid var(--border-color)",
       }}
     >
       <div className="flex flex-col items-center sm:flex-row sm:gap-8 gap-2 w-full sm:w-auto">
+        {/* Brand & static logo */}
         <Link to="/dashboard" style={{ textDecoration: "none" }}>
-          {/* -- LOGO CLUSTER -- */}
-          <div className="flex items-center gap-2 sm:gap-3 cursor-pointer select-none relative">
-            {/* Playful floating emojis (beside/above/below) */}
-            {/* Above/left mascots cluster */}
-            <div className="flex flex-row gap-0.5 items-end h-full mr-2 sm:mr-0 mt-[1px]">
-              {[0, 1].map(i =>
-                i === 0 ? null : (
-                  // animalMascots[1] = Cat, etc
-                  <motion.span
-                    key={animalMascots[i].label}
-                    className="mascot-logo"
-                    style={{
-                      width: 35,
-                      height: 35,
-                      marginLeft: i > 1 ? "-0.55em" : "0",
-                      marginRight: "0.04em",
-                      border: "3px solid #fff",
-                      background:
-                        "linear-gradient(136deg,#ffe385 50%,#e4f0ff 95%)",
-                      boxShadow: "0 1.5px 7px #b3e1fb22",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    aria-label={animalMascots[i].label}
-                    title={animalMascots[i].label}
-                    initial={false}
-                    animate={floatVariants[i - 1].animate}
-                  >
-                    <span style={{ fontSize: 25, userSelect: "none" }}>
-                      {animalMascots[i].emoji}
-                    </span>
-                  </motion.span>
-                )
-              )}
+          <div className="flex flex-col items-center relative select-none">
+            {/* Top mascots (2 above) */}
+            <div className="flex flex-row gap-1 items-end mb-2">
+              <motion.div
+                className="mascot-logo"
+                style={{
+                  width: 35,
+                  height: 35,
+                  marginRight: "-4px",
+                  border: "3px solid #fff",
+                  background: "linear-gradient(136deg,#ffe385 50%,#e4f0ff 95%)",
+                  boxShadow: "0 1.5px 7px #b3e1fb22",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                aria-label={animalMascots[0].label}
+                title={animalMascots[0].label}
+                initial={false}
+                animate={floatVariants[0].animate}
+              >
+                <span style={{ fontSize: 24, userSelect: "none" }}>{animalMascots[0].emoji}</span>
+              </motion.div>
+              <motion.div
+                className="mascot-logo"
+                style={{
+                  width: 35,
+                  height: 35,
+                  marginLeft: "-6px",
+                  border: "3px solid #fff",
+                  background: "linear-gradient(136deg,#ffe385 50%,#e4f0ff 95%)",
+                  boxShadow: "0 1.5px 7px #b3e1fb22",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                aria-label={animalMascots[1].label}
+                title={animalMascots[1].label}
+                initial={false}
+                animate={floatVariants[1].animate}
+              >
+                <span style={{ fontSize: 24, userSelect: "none" }}>{animalMascots[1].emoji}</span>
+              </motion.div>
             </div>
-            {/* -- Static Main Logo Text + Center mascot -- */}
-            <span
+            {/* Static SketchQuest logo & mascot */}
+            <div
               style={{
                 fontFamily: "'Bungee', cursive",
                 color: "#4E73DF",
@@ -141,53 +140,69 @@ export default function Header() {
                 style={{
                   fontSize: 28,
                   marginRight: 4,
-                  verticalAlign: "middle"
+                  verticalAlign: "middle",
                 }}
-              >🎨</span>{" "}
+              >
+                🎨
+              </span>{" "}
               SketchQuest
-              {/* Central mascot (static) */}
+              {/* Central mascot (static, not floating) */}
               <span
                 className="mascot-logo shadow-sm"
                 style={{
                   marginLeft: "12px",
-                  width: 38, height: 38,
+                  width: 38,
+                  height: 38,
                   display: "inline-block",
                   verticalAlign: "middle",
-                  lineHeight: 1
+                  lineHeight: 1,
                 }}
               >
                 <span role="img" aria-label="lizard mascot" style={{ fontSize: 27 }}>🦎</span>
               </span>
-            </span>
-            {/* Below/right mascots cluster */}
-            <div className="flex flex-row gap-0.5 items-start h-full ml-2 sm:ml-0">
-              {[2, 3, 4].map((i, idx) => (
-                <motion.span
-                  key={animalMascots[i].label}
-                  className="mascot-logo"
-                  style={{
-                    width: 34,
-                    height: 34,
-                    marginLeft: idx !== 0 ? "-0.63em" : "0.09em",
-                    marginRight: "0.06em",
-                    border: "3px solid #fff",
-                    background:
-                      "linear-gradient(135deg, #ffe385 54%, #e4f0ff 89%)",
-                    boxShadow: "0 2px 8px #b3e1fb22",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                  aria-label={animalMascots[i].label}
-                  title={animalMascots[i].label}
-                  initial={false}
-                  animate={floatVariants[i - 1].animate}
-                >
-                  <span style={{ fontSize: 24, userSelect: "none" }}>
-                    {animalMascots[i].emoji}
-                  </span>
-                </motion.span>
-              ))}
+            </div>
+            {/* Bottom mascots (2 below) */}
+            <div className="flex flex-row gap-1 items-start mt-2">
+              <motion.div
+                className="mascot-logo"
+                style={{
+                  width: 35,
+                  height: 35,
+                  marginRight: "-4px",
+                  border: "3px solid #fff",
+                  background: "linear-gradient(135deg, #ffe385 54%, #e4f0ff 89%)",
+                  boxShadow: "0 2px 8px #b3e1fb22",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                aria-label={animalMascots[2].label}
+                title={animalMascots[2].label}
+                initial={false}
+                animate={floatVariants[2].animate}
+              >
+                <span style={{ fontSize: 24, userSelect: "none" }}>{animalMascots[2].emoji}</span>
+              </motion.div>
+              <motion.div
+                className="mascot-logo"
+                style={{
+                  width: 35,
+                  height: 35,
+                  marginLeft: "-6px",
+                  border: "3px solid #fff",
+                  background: "linear-gradient(135deg, #ffe385 54%, #e4f0ff 89%)",
+                  boxShadow: "0 2px 8px #b3e1fb22",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                aria-label={animalMascots[3].label}
+                title={animalMascots[3].label}
+                initial={false}
+                animate={floatVariants[3].animate}
+              >
+                <span style={{ fontSize: 24, userSelect: "none" }}>{animalMascots[3].emoji}</span>
+              </motion.div>
             </div>
           </div>
         </Link>
@@ -202,7 +217,7 @@ export default function Header() {
               ? " font-bold text-[var(--text-secondary)] bg-white/80 shadow-sm"
               : " hover:text-blue-500 hover:bg-white/60")
           }
-          style={{ fontFamily: "Fredoka, Nunito, Bungee, sans-serif", }}
+          style={{ fontFamily: "Fredoka, Nunito, Bungee, sans-serif" }}
         >
           Dashboard
         </Link>
@@ -214,7 +229,7 @@ export default function Header() {
               ? " font-bold text-indigo-700 bg-white/90 shadow"
               : " hover:text-indigo-700 hover:bg-white/70")
           }
-          style={{ fontFamily: "Fredoka, Nunito, Bungee, sans-serif", }}
+          style={{ fontFamily: "Fredoka, Nunito, Bungee, sans-serif" }}
         >
           <Crown size={20} color="#FFB800" /> Leaderboard
         </Link>
