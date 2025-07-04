@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { doc, getDoc, setDoc, updateDoc, arrayUnion, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAppContext } from "../context/AppContext";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
+import { Sparkles, Timer, ThumbsUp, ThumbsDown } from "lucide-react";
 
-// Prompts for spin wheel
-const PROMPTS = ["Cat", "Dog", "Lizard", "Elephant", "Parrot", "Snake", "Rabbit", "Dolphin", "Frog", "Tiger", "Giraffe", "Panda", "Swan", "Peacock"];
+// Spin wheel prompt pool - playful vibes!
+const PROMPTS = [
+  "Cat", "Dog", "Lizard", "Elephant", "Parrot", "Snake", "Rabbit", "Dolphin", "Frog",
+  "Tiger", "Giraffe", "Panda", "Swan", "Peacock", "Chameleon", "Hamster", "Zebra", "Seal", "Koala"
+];
 
 export default function DrawingPage() {
   const { docId } = useParams();
@@ -25,6 +29,9 @@ export default function DrawingPage() {
   const [drawingUrl, setDrawingUrl] = useState("");
   const [canvasReady, setCanvasReady] = useState(false);
   const canvasRef = useRef();
+
+  // For bouncy error/correct guess animation in guess mode
+  const guessMsgAnim = useAnimation();
 
   // Load existing drawing if guessing
   useEffect(() => {
@@ -152,52 +159,78 @@ export default function DrawingPage() {
         correctUser: user?.username || "anon"
       });
       setGuessMsg("🎉 Correct! You earned 10 points.");
-      setTimeout(() => nav("/dashboard"), 1500);
+      guessMsgAnim.start({ y: [0, -16, 1], scale: [1, 1.12, 1], transition: { type: "spring", bounce: 0.8 } });
+      setTimeout(() => nav("/dashboard"), 1550);
     } else {
       await updateDoc(docRef, {
         wrongGuesses: arrayUnion({ who: user?.username, text: guessText })
       });
-      setGuessMsg("❌ Wrong guess. Try again!");
+      setGuessMsg("❌ Nope! Try again!");
+      guessMsgAnim.start({ x: [-1, 10, -6, 1, 0], scale: [1, 1.03, 1, 1] });
       setWrongGuesses(guesses => [...guesses, { who: user?.username, text: guessText }]);
     }
     setLoading(false);
     setGuessText("");
   }
 
-  // Render depending on mode
+  // DRAW mode
   if (mode === "draw") {
     return (
       <motion.div
-        className="flex flex-col items-center mt-6 gap-2"
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col items-center mt-6 gap-3"
+        initial={{ opacity: 0, y: 10, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ type: "spring", delay: 0.1 }}
       >
-        <div className="font-bungee text-lg">Spin for a Prompt</div>
+        <div className="font-bungee text-lg wavy">Spin for a Prompt</div>
         {!chosenPrompt ? (
-          <button
+          <motion.button
             onClick={randomPrompt}
-            className="px-6 py-2 bg-blue-500 rounded-xl font-bold text-white"
+            className="btn-animated font-bungee text-lg px-7 py-2 mb-2 motion-pop"
+            initial={{ scale: 0.91, y: -6 }}
+            animate={{ scale: 1, y: 0 }}
+            whileTap={{ scale: 0.95, rotate: -6 }}
+            whileHover={{ scale: 1.045, background: "var(--kavia-orange)" }}
+            style={{
+              background: "linear-gradient(90deg,#6366f1 60%,#fbbf24 100%)",
+              color: "#fff"
+            }}
           >
-            Spin the Wheel
-          </button>
+            <Sparkles size={23} className="mr-1" /> Spin the Wheel
+          </motion.button>
         ) : (
           <>
-            <div className="font-bold text-indigo-700 text-xl mb-2">Prompt: {chosenPrompt}</div>
-            <div className="font-mono text-gray-500">
-              Timer: <span className={timer < 10 ? "text-red-500 font-bold" : ""}>{timer}s</span>
+            <div className="font-bold font-bungee text-indigo-700 text-xl mb-2">{`Prompt: ${chosenPrompt}`}</div>
+            <div className="font-mono flex items-center text-lg gap-2">
+              <Timer size={19} style={{marginRight:3}} />
+              Timer:
+              <span className={timer < 10 ? "text-red-500 font-bold animate-pulse" : "text-green-700 font-bold"}>
+                {timer}s
+              </span>
             </div>
-            <canvas
-              ref={canvasRef}
-              width={280}
-              height={280}
-              className="border-2 border-gray-300 rounded-xl drop-shadow mb-2"
-              style={{ background: "#fff", touchAction: "none" }}
-            />
+            <div className="canvas-bg flex items-center justify-center p-3 rounded-2xl my-3 shadow"
+                style={{minWidth:300, minHeight:300, border:"2.5px solid var(--border-color)"}}
+              >
+              <canvas
+                ref={canvasRef}
+                width={280}
+                height={280}
+                className="rounded-2xl border-2 border-[var(--input-border)] drop-shadow bg-white"
+                style={{ background: "var(--draw-bg)", touchAction: "none"}}
+              />
+            </div>
             <button
-              className="mt-2 px-5 py-2 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700"
+              className={`btn-animated mt-2 px-7 py-2 font-bungee text-lg rounded-full transition-all ${timer > 0 ? "bg-gray-300 cursor-not-allowed opacity-55 animate-pulse" : "bg-green-500 hover:bg-green-600"}`}
               onClick={handleSaveDrawing}
               disabled={timer > 0}
+              style={{
+                boxShadow: timer > 0
+                  ? "none"
+                  : "0 2px 16px #a7f6b6bb",
+                color: timer > 0 ? "#8d8d8d" : "#fff"
+              }}
             >
-              {timer > 0 ? "Finish Drawing to Submit" : "Submit Drawing"}
+              {timer > 0 ? "Finish Drawing to Submit" : <>Submit Drawing <ThumbsUp size={19} className="inline ml-1"/></>}
             </button>
           </>
         )}
@@ -208,22 +241,30 @@ export default function DrawingPage() {
   // GUESS mode
   return (
     <motion.div
-      className="flex flex-col items-center mt-6 gap-5"
-      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+      className="flex flex-col items-center mt-6 gap-6 sktq-guess"
+      initial={{ opacity: 0, y: 22 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.12, type: "spring" }}
     >
-      <div className="font-bungee text-xl">Guess the Drawing!</div>
+      <div className="font-bungee text-xl wavy flex gap-2 items-center">Guess the Drawing! <Sparkles size={21}/></div>
       {loading || !drawingData ? (
-        <div className="text-lg py-20">Loading...</div>
+        <div className="text-lg py-20 animate-pulse">Loading...</div>
       ) : (
         <>
-          <img
+          <motion.img
             src={drawingData.dataUrl}
             alt="Guess Drawing"
-            className="w-56 h-56 object-contain rounded-xl border bg-white drop-shadow"
+            className="w-56 h-56 object-contain rounded-xl border bg-white drop-shadow-lg canvas-bg"
+            initial={{ scale: 0.88, opacity: 0.65 }}
+            animate={{ scale: 1, opacity: 1 }}
           />
-          <form onSubmit={handleGuess} className="flex items-center gap-3">
+          <form
+            onSubmit={handleGuess}
+            className="flex items-center gap-3 w-full max-w-xs"
+            autoComplete="off"
+          >
             <input
-              className="rounded-xl border px-4 py-2 font-xl"
+              className="rounded-xl border px-4 py-2 text-lg font-bungee focus:ring-2 focus:ring-[var(--input-focus)] focus:border-[var(--input-focus)] transition-all placeholder:text-muted border-[var(--input-border)] bg-[var(--input-bg)]"
               type="text"
               placeholder="Your guess!"
               value={guessText}
@@ -231,21 +272,39 @@ export default function DrawingPage() {
               onChange={e => setGuessText(e.target.value)}
               maxLength={24}
               required
+              style={{ minWidth: 0, flex: 1 }}
             />
-            <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg font-bold"
+            <motion.button
+              className="btn-animated px-4 py-2 font-bungee text-lg rounded-xl"
               type="submit"
               disabled={loading}
+              whileTap={{ scale: 0.93 }}
+              whileHover={{ scale: 1.06, background: "var(--kavia-orange)" }}
+              style={{
+                background: "linear-gradient(90deg,#4e73df 85%,#ff6b81 100%)",
+                color: "#fff"
+              }}
             >
               Guess!
-            </button>
+            </motion.button>
           </form>
-          {guessMsg && <div className={`text-md font-semibold ${guessMsg.startsWith('🎉') ? "text-green-600" : "text-red-500"}`}>{guessMsg}</div>}
+          {guessMsg && (
+            <motion.div
+              className={`text-md font-bold text-center mb-2 ${guessMsg.startsWith("🎉") ? "text-green-600" : "text-red-500"} drop-shadow motion-pop`}
+              animate={guessMsgAnim}
+              initial={{ opacity: 0, scale: 0.8, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.5, bounce: 0.9 }}
+            >
+              {guessMsg}{" "}
+              {guessMsg.startsWith("🎉") ? <ThumbsUp className="inline ml-1" color="#10B981" /> : <ThumbsDown className="inline ml-1" color="#ff6b81" />}
+            </motion.div>
+          )}
           <div className="w-full max-w-xs mt-3">
-            <div className="font-bold mb-1 text-gray-700">Wrong Guesses:</div>
+            <div className="font-bungee mb-1 text-muted text-center">Wrong Guesses:</div>
             <ul className="flex flex-col gap-1">
               {wrongGuesses.map((g, idx) =>
-                <li key={idx} className="text-xs text-gray-500">
+                <li key={idx} className="text-xs text-gray-500 motion-pop">
                   {g?.who ?? "anon"}: <span className="font-mono">{g?.text}</span>
                 </li>
               )}
