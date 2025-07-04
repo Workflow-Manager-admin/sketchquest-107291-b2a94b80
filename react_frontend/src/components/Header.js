@@ -112,7 +112,8 @@ export default function Header() {
 
             {/* --- STATIC: SketchQuest logo/title & mascot --- */}
             <div
-              // Absolutely NO classes which could have animation, and only static visual styles
+              // Absolutely NO animation/transition classes or styles allowed on or above brand text.
+              // Remove any unnecessary CSS that could inherit animation or transitions.
               style={{
                 fontFamily: "'Bungee', cursive",
                 color: "#4E73DF",
@@ -122,8 +123,9 @@ export default function Header() {
                 display: "flex",
                 alignItems: "center",
                 zIndex: 10,
-                // No animation/transition
-                // No className to avoid accidental inheritance
+                background: "none",
+                transition: "none",
+                animation: "none",
               }}
               data-testid="header-title"
               id="sketchquest-title-container"
@@ -135,7 +137,11 @@ export default function Header() {
                   fontSize: 28,
                   marginRight: 4,
                   verticalAlign: "middle",
-                  // No animation, transition, or filter styles or className
+                  background: "none",
+                  animation: "none",
+                  filter: "none",
+                  transition: "none",
+                  color: "inherit",
                 }}
               >
                 🎨
@@ -146,7 +152,14 @@ export default function Header() {
                 style={{
                   userSelect: "none",
                   marginRight: 6,
-                  // Remove ALL animation, transition, filter, className styles
+                  background: "none",
+                  animation: "none",
+                  filter: "none",
+                  transition: "none",
+                  color: "inherit",
+                  fontWeight: 600,
+                  fontFamily: "'Bungee', cursive",
+                  letterSpacing: "1.1px"
                 }}
               >
                 SketchQuest
@@ -161,14 +174,25 @@ export default function Header() {
                   display: "inline-block",
                   verticalAlign: "middle",
                   lineHeight: 1,
-                  // No animation, filter, or transition styles or className additions
+                  background: "linear-gradient(132deg, #ffe385 40%, #4e73df 90%)",
+                  filter: "none",
+                  boxShadow: "0 2px 12px #fbbf2430",
+                  animation: "none",
+                  transition: "none",
+                  border: "3.5px solid #fff"
                 }}
                 aria-label="lizard mascot"
               >
                 <span
                   role="img"
                   aria-label="lizard mascot"
-                  style={{ fontSize: 27 }}
+                  style={{
+                    fontSize: 27,
+                    animation: "none",
+                    filter: "none",
+                    transition: "none",
+                    background: "none",
+                  }}
                 >🦎</span>
               </span>
             </div>
