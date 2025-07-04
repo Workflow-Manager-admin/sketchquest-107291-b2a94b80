@@ -69,6 +69,39 @@ export default function Header() {
   // Inline mascot floating: enforce .mascot-logo.anim-float selector for max specificity in case of cache/classes CSS clashes
   // (no accidental .wavy, .motion-pop etc.)
 
+  // Diagnostics: warn if any animation style is being inherited by SketchQuest title at runtime
+  React.useEffect(() => {
+    const title = document.getElementById("sketchquest-title-text");
+    const container = document.getElementById("sketchquest-title-container");
+    if (title && container) {
+      const titleStyles = window.getComputedStyle(title);
+      const containerStyles = window.getComputedStyle(container);
+      const animatedProps = ["animationName", "animationDuration", "transitionProperty", "transitionDuration", "transform"];
+      const textDiagnostics = animatedProps
+        .map(key => key + ": " + titleStyles.getPropertyValue(key))
+        .join(", ");
+      const containerDiagnostics = animatedProps
+        .map(key => key + ": " + containerStyles.getPropertyValue(key))
+        .join(", ");
+      const textMoves = animatedProps.some(key => {
+        const val = titleStyles.getPropertyValue(key);
+        return val && val !== "none" && val !== "all 0s ease 0s" && val !== "0s";
+      });
+      const containerMoves = animatedProps.some(key => {
+        const val = containerStyles.getPropertyValue(key);
+        return val && val !== "none" && val !== "all 0s ease 0s" && val !== "0s";
+      });
+      if (textMoves || containerMoves) {
+        // eslint-disable-next-line
+        console.warn(
+          "[SketchQuest HEADER] Diagnostic: Animation detected on header title!", {
+            title_styles: textDiagnostics, container_styles: containerDiagnostics
+          }
+        );
+      }
+    }
+  }, []);
+
   return (
     <header
       className="flex flex-col sm:flex-row items-center justify-between w-full px-4 sm:px-8 py-4 drop-shadow-md rounded-b-2xl z-20"
@@ -138,10 +171,11 @@ export default function Header() {
                 display: "flex",
                 alignItems: "center",
                 zIndex: 10,
-                // Explicitly remove any motion/framer/animation class, style
-                animation: "none"
+                animation: "none",
+                transition: "none"
               }}
               data-testid="header-title"
+              id="sketchquest-title-container"
             >
               <span
                 role="img"
@@ -150,20 +184,24 @@ export default function Header() {
                   fontSize: 28,
                   marginRight: 4,
                   verticalAlign: "middle",
-                  animation: "none" // Never animate emoji
+                  animation: "none",
+                  transition: "none",
+                  filter: "none"
                 }}
               >
                 🎨
               </span>{" "}
               {/* NO animation/class on text, NO 'wavy', 'motion-pop', 'anim-float-header', etc. */}
               <span
+                className=""
                 style={{
                   userSelect: "none",
                   marginRight: 6,
-                  animation: "none",        // Statics only
+                  animation: "none",
                   transition: "none",
                   filter: "none"
                 }}
+                id="sketchquest-title-text"
               >
                 SketchQuest
               </span>
@@ -177,7 +215,7 @@ export default function Header() {
                   display: "inline-block",
                   verticalAlign: "middle",
                   lineHeight: 1,
-                  animation: "none", // enforce override (static)
+                  animation: "none",
                   filter: "none",
                   transition: "none"
                 }}
