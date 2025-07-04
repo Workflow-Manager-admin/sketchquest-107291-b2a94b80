@@ -112,9 +112,12 @@ export default function Header() {
 
             {/* --- STATIC: SketchQuest logo/title & mascot --- */}
             {/* Brand: SketchQuest logo - static! */}
+            {/* 
+              Brand: SketchQuest logo/title and mascot - FULLY STATIC.
+              This container and children have NO animation classes, NO motion.div, NO animated styles, and NO inherited side effects.
+              Font, color, and layout only.
+            */}
             <div
-              // This container and all children are FULLY STATIC: No animation, transition, "motion-", "wavy", or related classes/styles!
-              // Only CSS left here pertains to font, color, and layout.
               style={{
                 fontFamily: "'Bungee', cursive",
                 color: "#4E73DF",
@@ -125,7 +128,7 @@ export default function Header() {
                 alignItems: "center",
                 zIndex: 10,
                 background: "none"
-                // Absolutely NO transition or animation properties.
+                // No transition or animation properties allowed here
               }}
               data-testid="header-title"
               id="sketchquest-title-container"
@@ -139,11 +142,12 @@ export default function Header() {
                   verticalAlign: "middle",
                   background: "none",
                   color: "inherit"
+                  // No animation/transition
                 }}
               >
                 🎨
               </span>
-              {/* Absolutely NO animation, NO wavy, NO motion, NO transition, NO special styling on the text */}
+              {/* STATIC brand text: absolutely no animation classes/styles */}
               <span
                 id="sketchquest-title-text"
                 style={{
@@ -156,11 +160,10 @@ export default function Header() {
                   letterSpacing: "1.1px"
                   // No animation/filter/transition
                 }}
-                // Static brand logo text: no animated CSS class at all!
               >
                 SketchQuest
               </span>
-              {/* Central mascot (static, NOT floating/NOT animated) */}
+              {/* Central mascot (static, not animated, no animation/transition/filter) */}
               <span
                 className="mascot-logo shadow-sm"
                 style={{
@@ -173,8 +176,6 @@ export default function Header() {
                   background: "linear-gradient(132deg, #ffe385 40%, #4e73df 90%)",
                   filter: "none",
                   boxShadow: "0 2px 12px #fbbf2430",
-                  animation: "none",
-                  transition: "none",
                   border: "3.5px solid #fff"
                 }}
                 aria-label="lizard mascot"
@@ -184,10 +185,7 @@ export default function Header() {
                   aria-label="lizard mascot"
                   style={{
                     fontSize: 27,
-                    animation: "none",
-                    filter: "none",
-                    transition: "none",
-                    background: "none",
+                    background: "none"
                   }}
                 >🦎</span>
               </span>
