@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 // PUBLIC_INTERFACE
 /**
  * SketchQuest Header
- * - The 'SketchQuest' text and main mascot/logo are completely static (no animation classes or animated components, no animation CSS, and no animated inline style on text or its parents).
- * - Only animal mascots/icons (not logo or text) float gently using framer-motion for a playful, dynamic effect.
- * - CSS selectors and animation logic are tightly scoped/isolated to avoid accidental leaking.
+ * - The 'SketchQuest' text and mascot/logo are completely static (no animation classes or components, animated styles, or inherited effects).
+ * - ONLY animal mascots/icons (NOT logo or "SketchQuest" text) float gently for playful effect.
+ * - Tight comments explain and enforce this for maintainability.
  */
 export default function Header() {
   const { pathname } = useLocation();
@@ -49,7 +49,7 @@ export default function Header() {
     },
   ];
 
-  // Only mascot icons are motion-wrapped. Absolutely NO motion, animation, or animation-related class on or above the SketchQuest text or its direct container.
+  // Only mascot icons are motion-wrapped. NO animation, keyframes, or related classes on or above the SketchQuest text or its container.
   return (
     <header
       className="flex flex-col sm:flex-row items-center justify-between w-full px-4 sm:px-8 py-4 drop-shadow-md rounded-b-2xl z-20"
@@ -111,11 +111,10 @@ export default function Header() {
             </div>
 
             {/* --- STATIC: SketchQuest logo/title & mascot --- */}
-            {/* Brand: SketchQuest logo - static! */}
             {/* 
-              Brand: SketchQuest logo/title and mascot - FULLY STATIC.
-              This container and children have NO animation classes, NO motion.div, NO animated styles, and NO inherited side effects.
-              Font, color, and layout only.
+              FULLY STATIC: no classes or motion components that animate,
+              no .wavy or .motion-pop, no transition/animation/filter except drop-shadow.
+              All layout, font, and color are steered purely by static CSS and inline font styles.
             */}
             <div
               style={{
@@ -123,15 +122,16 @@ export default function Header() {
                 color: "#4E73DF",
                 fontSize: 29,
                 letterSpacing: "1.1px",
-                filter: "drop-shadow(0px 3px 10px #c3dafb88)",
+                filter: "drop-shadow(0px 3px 10px #c3dafb88)", // aesthetic highlight only
                 display: "flex",
                 alignItems: "center",
                 zIndex: 10,
-                background: "none"
-                // No transition or animation properties allowed here
+                background: "none",
+                fontWeight: 600
               }}
               data-testid="header-title"
               id="sketchquest-title-container"
+              // Absolutely no animation/transition properties allowed here or children
             >
               <span
                 role="img"
@@ -142,12 +142,13 @@ export default function Header() {
                   verticalAlign: "middle",
                   background: "none",
                   color: "inherit"
-                  // No animation/transition
+                  // NO animation/transition/filter
                 }}
+                // No animation classes
               >
                 🎨
               </span>
-              {/* STATIC brand text: absolutely no animation classes/styles */}
+              {/* STATIC brand text: absolutely NO animation, motion, keyframes, or animation classes. */}
               <span
                 id="sketchquest-title-text"
                 style={{
@@ -158,8 +159,9 @@ export default function Header() {
                   fontWeight: 600,
                   fontFamily: "'Bungee', cursive",
                   letterSpacing: "1.1px"
-                  // No animation/filter/transition
+                  // NO animation/filter/transition
                 }}
+                // No animation or filter or className here
               >
                 SketchQuest
               </span>
@@ -179,6 +181,7 @@ export default function Header() {
                   border: "3.5px solid #fff"
                 }}
                 aria-label="lizard mascot"
+                // No animation class, static only
               >
                 <span
                   role="img"
@@ -186,6 +189,7 @@ export default function Header() {
                   style={{
                     fontSize: 27,
                     background: "none"
+                    // No animation or motion or keyframes
                   }}
                 >🦎</span>
               </span>
