@@ -6,9 +6,10 @@ import { motion } from "framer-motion";
 // PUBLIC_INTERFACE
 /**
  * SketchQuest Header
- * - The 'SketchQuest' text and main mascot/logo are completely static (no animation).
+ * - The 'SketchQuest' text and main mascot/logo are completely static (no animation classes or animated components).
  * - Animal mascots/icons around the text float gently using framer-motion for a playful, dynamic effect.
- * - No animation is ever applied to the SketchQuest text or the central mascot/logo.
+ * - No animation/class is ever applied to text/logo or central mascot/lizard.
+ * - CSS selector specificity and utility class hygiene are enforced for animation scoping.
  */
 export default function Header() {
   const { pathname } = useLocation();
@@ -21,7 +22,7 @@ export default function Header() {
     { emoji: "🐱", label: "Cat" },
   ];
 
-  // Framer Motion floating animation variants for each mascot (with offset for organic movement)
+  // Framer Motion floating animation variants for each mascot (with different keyframes for organic movement)
   const floatVariants = [
     {
       animate: {
@@ -65,6 +66,9 @@ export default function Header() {
     },
   ];
 
+  // Inline mascot floating: enforce .mascot-logo.anim-float selector for max specificity in case of cache/classes CSS clashes
+  // (no accidental .wavy, .motion-pop etc.)
+
   return (
     <header
       className="flex flex-col sm:flex-row items-center justify-between w-full px-4 sm:px-8 py-4 drop-shadow-md rounded-b-2xl z-20"
@@ -78,10 +82,10 @@ export default function Header() {
         {/* Brand & static logo */}
         <Link to="/dashboard" style={{ textDecoration: "none" }}>
           <div className="flex flex-col items-center relative select-none">
-            {/* Top mascots (2 above) */}
+            {/* Top mascots (animated) */}
             <div className="flex flex-row gap-1 items-end mb-2">
               <motion.div
-                className="mascot-logo"
+                className="mascot-logo anim-float-header"
                 style={{
                   width: 35,
                   height: 35,
@@ -92,6 +96,7 @@ export default function Header() {
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  zIndex: 1,
                 }}
                 aria-label={animalMascots[0].label}
                 title={animalMascots[0].label}
@@ -101,7 +106,7 @@ export default function Header() {
                 <span style={{ fontSize: 24, userSelect: "none" }}>{animalMascots[0].emoji}</span>
               </motion.div>
               <motion.div
-                className="mascot-logo"
+                className="mascot-logo anim-float-header"
                 style={{
                   width: 35,
                   height: 35,
@@ -112,6 +117,7 @@ export default function Header() {
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  zIndex: 1,
                 }}
                 aria-label={animalMascots[1].label}
                 title={animalMascots[1].label}
@@ -133,6 +139,7 @@ export default function Header() {
                 alignItems: "center",
                 zIndex: 10,
               }}
+              data-testid="header-title"
             >
               <span
                 role="img"
@@ -145,8 +152,9 @@ export default function Header() {
               >
                 🎨
               </span>{" "}
-              SketchQuest
-              {/* Central mascot (static, not floating) */}
+              {/* NO animation/class on text */}
+              <span style={{ userSelect: "none", marginRight: 6 }}>SketchQuest</span>
+              {/* Central mascot (static, NOT floating) */}
               <span
                 className="mascot-logo shadow-sm"
                 style={{
@@ -156,15 +164,17 @@ export default function Header() {
                   display: "inline-block",
                   verticalAlign: "middle",
                   lineHeight: 1,
+                  animation: "none", // enforce override
                 }}
+                aria-label="lizard mascot"
               >
                 <span role="img" aria-label="lizard mascot" style={{ fontSize: 27 }}>🦎</span>
               </span>
             </div>
-            {/* Bottom mascots (2 below) */}
+            {/* Bottom mascots (animated) */}
             <div className="flex flex-row gap-1 items-start mt-2">
               <motion.div
-                className="mascot-logo"
+                className="mascot-logo anim-float-header"
                 style={{
                   width: 35,
                   height: 35,
@@ -175,6 +185,7 @@ export default function Header() {
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  zIndex: 1,
                 }}
                 aria-label={animalMascots[2].label}
                 title={animalMascots[2].label}
@@ -184,7 +195,7 @@ export default function Header() {
                 <span style={{ fontSize: 24, userSelect: "none" }}>{animalMascots[2].emoji}</span>
               </motion.div>
               <motion.div
-                className="mascot-logo"
+                className="mascot-logo anim-float-header"
                 style={{
                   width: 35,
                   height: 35,
@@ -195,6 +206,7 @@ export default function Header() {
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  zIndex: 1,
                 }}
                 aria-label={animalMascots[3].label}
                 title={animalMascots[3].label}

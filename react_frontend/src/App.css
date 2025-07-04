@@ -292,7 +292,23 @@ input:focus, textarea:focus, select:focus {
   background: linear-gradient(132deg, #ffe385 40%, #4e73df 90%);
   border: 3.5px solid #fff;
   box-shadow: 0 2px 12px #fbbf2430;
-  /* No animation by default for header mascots. Animation is opt-in with .wavy elsewhere. */
+  /* No animation by default. Mascots in header use .anim-float-header for animation; .wavy not used. */
+}
+
+/* Only animal mascot icons in header get floating animation (NOT logo text or central mascot) */
+.anim-float-header {
+  animation: anim-float-header-bob 2.9s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Framer Motion will override transform directly, but this fallback ensures no other rules leak. */
+@keyframes anim-float-header-bob {
+  0% { transform: translateY(0);}
+  17% { transform: translateY(-8px);}
+  28% { transform: translateY(0);}
+  43% { transform: translateY(6px);}
+  65% { transform: translateY(0);}
+  100% { transform: translateY(0);}
 }
 
 /* .wavy is for places where we want a wobble/bounce. Not used for mascots in header. */
