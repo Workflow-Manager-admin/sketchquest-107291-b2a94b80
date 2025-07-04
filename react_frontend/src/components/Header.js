@@ -66,9 +66,6 @@ export default function Header() {
     },
   ];
 
-  // Inline mascot floating: enforce .mascot-logo.anim-float selector for max specificity in case of cache/classes CSS clashes
-  // (no accidental .wavy, .motion-pop etc.)
-
   // Diagnostics: warn if any animation style is being inherited by SketchQuest title at runtime
   React.useEffect(() => {
     const title = document.getElementById("sketchquest-title-text");
@@ -76,13 +73,13 @@ export default function Header() {
     if (title && container) {
       const titleStyles = window.getComputedStyle(title);
       const containerStyles = window.getComputedStyle(container);
-      const animatedProps = ["animationName", "animationDuration", "transitionProperty", "transitionDuration", "transform"];
-      const textDiagnostics = animatedProps
-        .map(key => key + ": " + titleStyles.getPropertyValue(key))
-        .join(", ");
-      const containerDiagnostics = animatedProps
-        .map(key => key + ": " + containerStyles.getPropertyValue(key))
-        .join(", ");
+      const animatedProps = [
+        "animationName",
+        "animationDuration",
+        "transitionProperty",
+        "transitionDuration",
+        "transform"
+      ];
       const textMoves = animatedProps.some(key => {
         const val = titleStyles.getPropertyValue(key);
         return val && val !== "none" && val !== "all 0s ease 0s" && val !== "0s";
@@ -94,8 +91,14 @@ export default function Header() {
       if (textMoves || containerMoves) {
         // eslint-disable-next-line
         console.warn(
-          "[SketchQuest HEADER] Diagnostic: Animation detected on header title!", {
-            title_styles: textDiagnostics, container_styles: containerDiagnostics
+          "[SketchQuest HEADER] Diagnostic: Animation detected on header title!",
+          {
+            title_styles: animatedProps.map(
+              key => key + ": " + titleStyles.getPropertyValue(key)
+            ).join(", "),
+            container_styles: animatedProps.map(
+              key => key + ": " + containerStyles.getPropertyValue(key)
+            ).join(", ")
           }
         );
       }
@@ -112,7 +115,7 @@ export default function Header() {
       }}
     >
       <div className="flex flex-col items-center sm:flex-row sm:gap-8 gap-2 w-full sm:w-auto">
-        {/* Brand & static logo */}
+        {/* Brand & logo block */}
         <Link to="/dashboard" style={{ textDecoration: "none" }}>
           <div className="flex flex-col items-center relative select-none">
             {/* Top mascots (animated) */}
@@ -160,7 +163,8 @@ export default function Header() {
                 <span style={{ fontSize: 24, userSelect: "none" }}>{animalMascots[1].emoji}</span>
               </motion.div>
             </div>
-            {/* Static SketchQuest logo & mascot */}
+
+            {/* Static SketchQuest logo/title & mascot: NO animation on container or text */}
             <div
               style={{
                 fontFamily: "'Bungee', cursive",
@@ -191,9 +195,10 @@ export default function Header() {
               >
                 🎨
               </span>{" "}
-              {/* NO animation/class on text, NO 'wavy', 'motion-pop', 'anim-float-header', etc. */}
+              {/* NO animation class or style on the text */}
               <span
-                className=""
+                id="sketchquest-title-text"
+                className="" // do not add any class that might animate!
                 style={{
                   userSelect: "none",
                   marginRight: 6,
@@ -201,7 +206,6 @@ export default function Header() {
                   transition: "none",
                   filter: "none"
                 }}
-                id="sketchquest-title-text"
               >
                 SketchQuest
               </span>
