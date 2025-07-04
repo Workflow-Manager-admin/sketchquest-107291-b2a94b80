@@ -66,7 +66,7 @@ export default function Header() {
     },
   ];
 
-  // All diagnostics for animation on 'SketchQuest' text/container have been removed. The header brand is now static by code and design.
+  // All animation and motion-related logic is fully isolated to mascots ONLY.
 
   return (
     <header
@@ -127,7 +127,7 @@ export default function Header() {
               </motion.div>
             </div>
 
-            {/* Static SketchQuest logo/title & mascot: NO animation on container or text */}
+            {/* --- STATIC: SketchQuest logo/title & mascot --- */}
             <div
               style={{
                 fontFamily: "'Bungee', cursive",
@@ -137,8 +137,8 @@ export default function Header() {
                 filter: "drop-shadow(0px 3px 10px #c3dafb88)",
                 display: "flex",
                 alignItems: "center",
-                zIndex: 10
-                // Removed animation and transition properties to ensure no accidental inheritance
+                zIndex: 10,
+                // No animation/transition properties
               }}
               data-testid="header-title"
               id="sketchquest-title-container"
@@ -149,20 +149,22 @@ export default function Header() {
                 style={{
                   fontSize: 28,
                   marginRight: 4,
-                  verticalAlign: "middle"
-                  // Removed animation, transition, filter
+                  verticalAlign: "middle",
+                  // No animation, transition, filter
                 }}
               >
                 🎨
-              </span>{" "}
-              {/* NO animation class or style on the text */}
+              </span>
+              {/* --- NO animation, className, or transition on the text --- */}
               <span
                 id="sketchquest-title-text"
-                // No className, no animation, no wavy, no transition, no filter
                 style={{
                   userSelect: "none",
-                  marginRight: 6
-                  // Removed animation, transition, filter
+                  marginRight: 6,
+                  // No animation, className, transition, or filter
+                  animation: "none",
+                  transition: "none",
+                  filter: "none"
                 }}
               >
                 SketchQuest
@@ -177,7 +179,7 @@ export default function Header() {
                   display: "inline-block",
                   verticalAlign: "middle",
                   lineHeight: 1
-                  // Removed animation, filter, transition
+                  // No animation, filter, transition
                 }}
                 aria-label="lizard mascot"
               >
