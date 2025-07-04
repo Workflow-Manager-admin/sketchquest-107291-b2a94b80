@@ -66,44 +66,7 @@ export default function Header() {
     },
   ];
 
-  // Diagnostics: warn if any animation style is being inherited by SketchQuest title at runtime
-  React.useEffect(() => {
-    const title = document.getElementById("sketchquest-title-text");
-    const container = document.getElementById("sketchquest-title-container");
-    if (title && container) {
-      const titleStyles = window.getComputedStyle(title);
-      const containerStyles = window.getComputedStyle(container);
-      const animatedProps = [
-        "animationName",
-        "animationDuration",
-        "transitionProperty",
-        "transitionDuration",
-        "transform"
-      ];
-      const textMoves = animatedProps.some(key => {
-        const val = titleStyles.getPropertyValue(key);
-        return val && val !== "none" && val !== "all 0s ease 0s" && val !== "0s";
-      });
-      const containerMoves = animatedProps.some(key => {
-        const val = containerStyles.getPropertyValue(key);
-        return val && val !== "none" && val !== "all 0s ease 0s" && val !== "0s";
-      });
-      if (textMoves || containerMoves) {
-        // eslint-disable-next-line
-        console.warn(
-          "[SketchQuest HEADER] Diagnostic: Animation detected on header title!",
-          {
-            title_styles: animatedProps.map(
-              key => key + ": " + titleStyles.getPropertyValue(key)
-            ).join(", "),
-            container_styles: animatedProps.map(
-              key => key + ": " + containerStyles.getPropertyValue(key)
-            ).join(", ")
-          }
-        );
-      }
-    }
-  }, []);
+  // All diagnostics for animation on 'SketchQuest' text/container have been removed. The header brand is now static by code and design.
 
   return (
     <header
